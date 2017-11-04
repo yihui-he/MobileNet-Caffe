@@ -1,15 +1,26 @@
 name: "MOBILENET"
-#  transform_param {
-#    scale: 0.017
-#    mirror: false
-#    crop_size: 224
-#    mean_value: [103.94,116.78,123.68]
-#  }
-input: "data"
-input_dim: 1
-input_dim: 3
-input_dim: 224
-input_dim: 224
+layer {
+  name: "data"
+  type: "ImageData"
+  top: "data"
+  top: "label"
+  image_data_param {
+    new_dim: 256
+    bicubic: true
+    shuffle: true
+    batch_size: 10
+    source: "/home/heyihui/heyihui-local/caffe/data/ilsvrc12/sourceval.txt"
+  }
+  transform_param {
+   scale: 0.017
+   mirror: false
+   crop_size: 224
+   mean_value: [103.94,116.78,123.68]
+  }
+  include {
+    phase: TEST
+  }
+}
 layer {
   name: "conv1"
   type: "Convolution"
